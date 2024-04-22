@@ -1,0 +1,9 @@
+tasks:
+  - name: Main
+    before: echo -e "\e[93mNPM packages are installing on the right panel ...\e[0m"
+    init: echo -e "\e[92mFor more info:\e[0m \e[96mhttps://github.com/chain4travel/camino-builder/blob/c4t/README.md"
+    command: echo -e "\e[92mDon't forget to check KYC Verification and Getting Funds sections:\e[0m\n\e[96mhttps://github.com/DecodeTravel/berlin-2024-resource-hub?tab=readme-ov-file#c-chainevm-resources"
+  - name: NPM Install
+    init: echo "Starting npm install..."
+    command: npm install
+    openMode: split-right

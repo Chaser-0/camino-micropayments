@@ -23,9 +23,17 @@ jobs:
         yarn build
 
     - name: Deploy to IPFS
-      uses: aquiladev/ipfs-action@master
+      uses: filebase/ipfs-action@master
+      id: deploy
+      timeout-minutes: 2
       with:
         path: ./ui/dist
+        service: ipfs
+        verbose: true
+        host: localhost
+        port: 5001
+        protocol: http
+        key: ipfs-action
 
     - name: Output hash
       run: echo ${{ steps.upload.outputs.hash }}

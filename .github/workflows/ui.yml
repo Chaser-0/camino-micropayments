@@ -24,7 +24,7 @@ jobs:
 
     - name: Deploy to IPFS
       uses: filebase/ipfs-action@master
-      id: deploy
+      id: ipfs
       timeout-minutes: 2
       with:
         path: ./ui/dist
@@ -36,4 +36,4 @@ jobs:
         key: ipfs-action
 
     - name: Output hash
-      run: echo ${{ steps.upload.outputs.hash }}
+      run: echo ${{ steps.ipfs.outputs.hash }}

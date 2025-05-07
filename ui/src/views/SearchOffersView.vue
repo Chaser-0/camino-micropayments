@@ -3,7 +3,7 @@
     <p class="font-medium mb-2">We found these offers for your search:</p>
 
     <ul class="flex flex-col gap-4">
-      <OfferListEntry v-for="offer in offerStore.offers" :offer="offer"></OfferListEntry>
+      <OfferListEntry v-for="offer, id in offerStore.offers" :offer="offer" :id="id"></OfferListEntry>
   </ul>
   </MainLayout>
 </template>

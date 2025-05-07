@@ -10,7 +10,7 @@
 
   <div class="flex flex-col gap-2">
     <h1 class="text-xl">{{ headline }}</h1>
-    <main class="container mx-auto bg-gray-950 rounded-2xl">
+    <main class="container mx-auto bg-gray-950 rounded-2xl p-4">
       <slot></slot>
     </main>
   </div>

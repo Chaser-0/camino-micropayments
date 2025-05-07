@@ -32,9 +32,11 @@ jobs:
         apillon hosting deploy-website ./ui/dist --uuid $WEBSITE_UUID --key $APILLON_API_KEY --secret $APILLON_API_SECRET
 
     - name: Deploy to Pinata
-      uses: aquiladev/ipfs-action@master
+      uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
       with:
-        path: ./ui/dist
-        service: pinata
-        pinataKey: ${{ secrets.PINATA_KEY }}
-        pinataSecret: ${{ secrets.PINATA_SECRET }}
+        pin-name: 'Camino Micropayments'
+        path: './ui/dist'
+        pinata-api-key: ${{ secrets.PINATA_KEY }}
+        pinata-secret-api-key: ${{ secrets.PINATA_SECRET }}
+        verbose: true
+        remove-old: false

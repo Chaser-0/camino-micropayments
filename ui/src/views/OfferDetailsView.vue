@@ -5,7 +5,7 @@
     </RegularContainer>
   </MainLayout>
 
-  <MainLayout v-else :headline="offer.name" inner-class="grid lg:grid-cols-3 gap-8">
+  <MainLayout v-else :headline="offer.name" inner-class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <HeroContainer class="col-span-2"  :src="offer.heroImage">
       <p class="mb-4">{{ offer.description }}</p>
 

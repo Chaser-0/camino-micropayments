@@ -6,7 +6,7 @@
     Connect wallet
   </PrimaryButton>
   <span
-    class="border border-purple-500 rounded-lg | text-gray-100 bg-gray-800 | px-4 py-2"
+    class="border border-teal-500 rounded-lg | text-gray-100 bg-gray-800 | px-4 py-2"
     v-else
     >Selected wallet: {{ wallet.selectedProvider }}
   </span>

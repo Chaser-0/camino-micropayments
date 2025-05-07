@@ -10,7 +10,7 @@
 
   <div class="flex flex-col gap-2">
     <h1 class="text-xl">{{ headline }}</h1>
-    <main class="container mx-auto bg-gray-950 rounded-2xl p-4">
+    <main :class="`container mx-auto ${innerClass ?? ''}`">
       <slot></slot>
     </main>
   </div>
@@ -21,5 +21,6 @@ import WalletButton from '@/components/WalletButton.vue';
 
 defineProps<{
   headline: string;
+  innerClass?: string;
 }>();
 </script>

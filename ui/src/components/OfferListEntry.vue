@@ -8,7 +8,7 @@
       :to="{name: 'offerDetails', params: {id: id}}"
       >
       <span class="text-white text-3xl font-medium">{{ offer.name }}</span>
-      <span class="text-gray-200">Starting from {{ offer.cost }} CAM</span>
+      <span class="text-gray-200">Starting from {{ offer.price }} CAM</span>
     </RouterLink>
   </li>
 </template>

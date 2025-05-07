@@ -20,7 +20,7 @@ jobs:
       run: |
         cd ui
         yarn --frozen-lockfile
-        yarn build --base=/ipfs/Qmf9QFEZBT9ZnoBQM1tChYN5dZSPYxWkUVRQvBDFfcGpFe/
+        yarn build --base=/ipns/k51qzi5uqu5dl7pj7xym6rmhui6bqwpbplkopkrz2vpx1t52nqa6c4hxjqm7ez/
 
     # - name: Deploy to Apillon
     #   env:

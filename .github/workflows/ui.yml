@@ -42,7 +42,7 @@ jobs:
     #     remove-old: false
 
     - name: Deploy to Filebase
-      uses: aquiladev/ipfs-action@v1
+      uses: aquiladev/ipfs-action@master
       with:
         path: ./ui/dist
         service: filebase

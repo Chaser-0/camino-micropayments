@@ -22,18 +22,11 @@ jobs:
         yarn --frozen-lockfile
         yarn build
 
-    - name: Deploy to IPFS
-      uses: filebase/ipfs-action@master
-      id: ipfs
-      timeout-minutes: 2
-      with:
-        path: ./ui/dist
-        service: ipfs
-        verbose: true
-        host: localhost
-        port: 5001
-        protocol: http
-        key: ipfs-action
-
-    - name: Output hash
-      run: echo ${{ steps.ipfs.outputs.hash }}
+    - name: Deploy to Apillon
+      env:
+        APILLON_API_KEY: ${{ secrets.APILLON_API_KEY }}
+        APILLON_API_SECRET: ${{ secrets.APILLON_API_SECRET }}
+        WEBSITE_UUID: ${{ secrets.APILLON_WEBSITE_UUID }}
+      run: |
+        npm i -g @apillon/cli
+        apillon hosting deploy-website ./ui/dist --uuid $WEBSITE_UUID --key $APILLON_API_KEY --secret $APILLON_API_SECRET

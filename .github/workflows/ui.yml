@@ -1,0 +1,35 @@
+name: Deploy ui
+
+on:
+  push:
+    branches: [ "c4t" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        cd ui
+        yarn --frozen-lockfile
+        yarn build
+
+    - name: Deploy to IPFS
+      uses: aquiladev/ipfs-action@master
+      with:
+        path: ./dist
+
+    - name: Output hash
+      run: echo ${{ steps.upload.outputs.hash }}

@@ -1,14 +1,15 @@
 <template>
   <header>
     <div class="wrapper">
-      <nav>
-        <RouterLink :to="{name: 'searchOffers'}">Search offers</RouterLink>
+      <nav class="flex items-center gap-2 text-gray-300 p-2">
+        <RouterLink :to="{name: 'searchOffers'}" class="hover:text-purple-500 transition-colors duration-300">Search offers</RouterLink>
+        <wallet-button class="ml-auto"></wallet-button>
       </nav>
     </div>
   </header>
 
   <div class="flex flex-col gap-2">
-    <h1>{{ headline }}</h1>
+    <h1 class="text-xl">{{ headline }}</h1>
     <main class="container mx-auto bg-gray-950 rounded-2xl">
       <slot></slot>
     </main>
@@ -16,6 +17,8 @@
 </template>
 
 <script lang="ts" setup>
+import WalletButton from '@/components/WalletButton.vue';
+
 defineProps<{
   headline: string;
 }>();

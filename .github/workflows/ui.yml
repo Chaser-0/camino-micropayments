@@ -30,3 +30,11 @@ jobs:
       run: |
         npm i -g @apillon/cli
         apillon hosting deploy-website ./ui/dist --uuid $WEBSITE_UUID --key $APILLON_API_KEY --secret $APILLON_API_SECRET
+
+    - name: Deploy to Pinata
+      uses: aquiladev/ipfs-action@master
+      with:
+        path: ./build
+        service: pinata
+        pinataKey: ${{ secrets.PINATA_KEY }}
+        pinataSecret: ${{ secrets.PINATA_SECRET }}

@@ -34,7 +34,7 @@ jobs:
     - name: Deploy to Pinata
       uses: aquiladev/ipfs-action@master
       with:
-        path: ./build
+        path: ./ui/dist
         service: pinata
         pinataKey: ${{ secrets.PINATA_KEY }}
         pinataSecret: ${{ secrets.PINATA_SECRET }}

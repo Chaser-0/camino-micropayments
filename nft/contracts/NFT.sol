@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NFT721 is ERC721URIStorage, Ownable {
-    constructor() ERC721("MyNFT", "NFT") {}
+    constructor() ERC721("The Block Busters NFT", "BLB") {}
 
     /**
     * @dev Function mints tokens, can only be called by owner

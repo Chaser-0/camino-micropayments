@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { BrowserProvider } from 'ethers/providers';
-import { ContractCaller } from '@/utils/contracts/ContractCaller';
+import { TestMyContractCaller } from '@/utils/contracts/TestMyContractCaller';
 
 export const useWalletStore = defineStore('wallet', () => {
   const connected = ref(false);
@@ -31,9 +31,9 @@ export const useWalletStore = defineStore('wallet', () => {
   }
 
 	const testMyContractGetBalance = async () => {
-		const contractCaller = new ContractCaller();
+		const contractCaller = new TestMyContractCaller();
 		try {
-			const balance = await contractCaller.testMyContractGetBalance();
+			const balance = await contractCaller.getBalance();
 			console.log("TestMyContract balance:", balance.toString());
 			return balance;
 		} catch (error) {
@@ -43,9 +43,9 @@ export const useWalletStore = defineStore('wallet', () => {
 	}
 
 	const testMyContractAddFunds = async (amount: number) => {
-		const contractCaller = new ContractCaller();
+		const contractCaller = new TestMyContractCaller();
 		try {
-			await contractCaller.testMyContractAddFunds(amount);
+			await contractCaller.addFunds(amount);
 		} catch (error) {
 			console.error("Error getting balance:", error);
 			throw error;

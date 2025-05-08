@@ -8,7 +8,7 @@
             <div data-atropos-offset="0" class="absolute bottom-0 left-0 w-full h-3/4 bg-gradient-to-t from-black/80 to-transparent"></div>
 
             <RouterLink
-              data-atropos-offset="3"
+              data-atropos-offset="1"
               class="absolute top-0 left-0 w-full h-full p-2 | flex flex-col gap-2 justify-end"
               :to="{name: 'offerDetails', params: {id: id}}"
               >
@@ -38,6 +38,8 @@ const antroposEl = ref<HTMLElement>();
 onMounted(() => {
   const myAtropos = Atropos({
     el: antroposEl.value,
+    rotateXMax: 5,
+    rotateYMax: 5
   });
 });
 </script>

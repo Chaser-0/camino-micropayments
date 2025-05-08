@@ -30,7 +30,7 @@ const router = createRouter({
       component: () => import('../views/SupplierView.vue'),
     },
     {
-      path: '/success',
+      path: '/success/:bookingNumber',
       name: 'success',
       component: () => import('../views/SuccessView.vue'),
     },

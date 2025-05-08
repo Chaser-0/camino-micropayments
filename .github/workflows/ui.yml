@@ -41,13 +41,13 @@ jobs:
     #     verbose: true
     #     remove-old: false
 
-    - name: Deploy to Filebase
-      uses: aquiladev/ipfs-action@master
-      with:
-        path: ./ui/dist
-        service: filebase
-        pinName: 'ipfs-action'
-        key: ${{ secrets.FILEBASE_IPNS_KEY }}
-        filebaseBucket: ${{ secrets.FILEBASE_BUCKET }}
-        filebaseKey: ${{ secrets.FILEBASE_KEY }}
-        filebaseSecret: ${{ secrets.FILEBASE_SECRET }}
+    # - name: Deploy to Filebase
+    #   uses: aquiladev/ipfs-action@master
+    #   with:
+    #     path: ./ui/dist
+    #     service: filebase
+    #     pinName: 'ipfs-action'
+    #     key: ${{ secrets.FILEBASE_IPNS_KEY }}
+    #     filebaseBucket: ${{ secrets.FILEBASE_BUCKET }}
+    #     filebaseKey: ${{ secrets.FILEBASE_KEY }}
+    #     filebaseSecret: ${{ secrets.FILEBASE_SECRET }}

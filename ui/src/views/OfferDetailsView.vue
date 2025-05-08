@@ -10,8 +10,15 @@
       <p class="mb-4">{{ offer.description }}</p>
 
       <p>Additional Offers:</p>
-      <ul>
-        <li v-for="addon, i in offer.addons" @click="toggleAddon(i)" class="cursor-pointer">{{ addon.name }}</li>
+      <ul class="flex flex-col gap-2">
+        <li v-for="addon, i in offer.addons" @click="toggleAddon(i)" class="group inline-flex justify-start items-end gap-2 w-full cursor-pointer | [&>*]:transition-colors [&>*]:duration-200">
+          <span class="text-cyan-500 group-hover:text-cyan-300">
+            <svg-icon v-if="selectedAddons.includes(i)" type="mdi" :path="mdiCheckboxMarked"></svg-icon>
+            <svg-icon v-else type="mdi" :path="mdiCheckboxBlankOutline"></svg-icon>
+          </span>
+          <span class="text-gray-200 group-hover:text-gray-50">{{ addon.name }}</span>
+          <span class="text-gray-400 text-sm">{{ addon.price + addon.price * addon.supplierPercent }} CAM</span>
+        </li>
       </ul>
     </HeroContainer>
 
@@ -28,7 +35,10 @@
         </div>
       </dl>
 
-      <PrimaryButton class="ml-auto mt-6">Checkout</PrimaryButton>
+      <PrimaryButton class="ml-auto mt-6">
+        <svg-icon type="mdi" :path="mdiCashMultiple"></svg-icon>
+        <span>Checkout</span>
+      </PrimaryButton>
     </RegularContainer>
   </MainLayout>
 </template>
@@ -43,6 +53,8 @@ import RegularContainer from '@/components/containers/RegularContainer.vue';
 import HeroContainer from '@/components/containers/HeroContainer.vue';
 import BillListEntry from '@/components/BillListEntry.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiCheckboxBlankOutline, mdiCheckboxMarked, mdiCashMultiple } from '@mdi/js';
 
 const route = useRoute();
 

@@ -29,6 +29,11 @@ const router = createRouter({
       name: 'supplierDashboard',
       component: () => import('../views/SupplierView.vue'),
     },
+    {
+      path: '/success',
+      name: 'success',
+      component: () => import('../views/SuccessView.vue'),
+    },
   ],
 })
 

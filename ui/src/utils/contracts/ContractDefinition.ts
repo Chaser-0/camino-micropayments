@@ -14,7 +14,7 @@ export class ContractDefinition {
 
 export const testMyContract = new ContractDefinition(
 	testMyContractDefinition.abi,
-	"0x03375a399d111f8c209A68B656048ee8dcAc3c42");
+	"0x6315Bc8ba1406BA60BeeA7673a9CF665fA1c257C");
 
 export const supplierEscrowContract = new ContractDefinition(
 	supplierEscrowContractDefinition.abi,

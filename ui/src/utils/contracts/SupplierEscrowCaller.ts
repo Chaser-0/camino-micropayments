@@ -29,7 +29,7 @@ export class SupplierEscrowCaller {
 	}
 
 	// Needs to be called by the owner of the contract/tour operator
-	async setAllowedAmount(supplierAccount: string, amount: number): Promise<any> {
+	public static async setAllowedAmount(supplierAccount: string, amount: number): Promise<any> {
 		try {
 			console.log(`setAllowedAmount ${amount} to supplier ${supplierAccount}`);
 			const contract = await getEthereumContractForConnectedUser(supplierEscrowContract);
@@ -49,7 +49,7 @@ export class SupplierEscrowCaller {
 	}
 
 	// Needs to be called by the supplier to withdraw the funds
-	async supplierWithdraw(): Promise<any> {
+	public static async supplierWithdraw(): Promise<any> {
 		try {
 			console.log(`About to withdraw funds for a supplier`);
 			const contract = await getEthereumContractForConnectedUser(supplierEscrowContract);
@@ -67,7 +67,7 @@ export class SupplierEscrowCaller {
 	}
 
 	// Needs to be called by the supplier to withdraw the funds
-	async checkSupplierBalance(): Promise<any> {
+	public static async checkSupplierBalance(): Promise<number> {
 		try {
 			console.log(`Checking supplier balance`);
 			const contract = await getEthereumContractForConnectedUser(supplierEscrowContract);

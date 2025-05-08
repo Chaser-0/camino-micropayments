@@ -24,6 +24,22 @@
           <svg-icon type="mdi" :path="mdiAlertCircle" class="absolute right-0 top-2.5 peer-invalid:visible invisible pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"></svg-icon>
         </div>
       </RegularContainer>
+			<RegularContainer>
+				<span>Supplier actions</span>
+        <div class="w-full relative">
+          <SecondaryButton @click="checkSupplierBalance">
+      		  <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
+    	   		<span>Check available funds</span>
+    		 	</SecondaryButton>
+          <span class="border">{{ supplierBalance }}</span>
+        </div>
+				<div class="w-full relative">
+					<SecondaryButton @click="withdrawSupplierBalance">
+					  <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
+			   		<span>Withdraw funds</span>
+				 	</SecondaryButton>
+				</div>
+			</RegularContainer>
     </div>
   </MainLayout>
 </template>
@@ -37,12 +53,14 @@ import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiRefresh, mdiAlertCircle } from '@mdi/js';
 import { formatEther } from 'ethers/utils';
 import RegularContainer from '@/components/containers/RegularContainer.vue';
+import { SupplierEscrowCaller } from '@/utils/contracts/SupplierEscrowCaller';
 
 const addresses = ref<string[]>([
   '0xcf4c43CeC323966833Ea85DaF0020479F84f620E'
 ]);
 const fundsData = ref<{address: string, balance: string}[]>([]);
 const addressInput = ref('');
+const supplierBalance = ref<number>(0);
 
 const fetchBalance = async () => {
   const ret: {address: string, balance: string}[] = [];
@@ -71,5 +89,12 @@ const onAddAddress = (e: KeyboardEvent) => {
     addresses.value.push(addressInput.value);
     addressInput.value = '';
   }
+}
+const checkSupplierBalance = async () => {
+	supplierBalance.value = await SupplierEscrowCaller.checkSupplierBalance();
+}
+const withdrawSupplierBalance = async () => {
+	await SupplierEscrowCaller.supplierWithdraw();
+	await checkSupplierBalance();
 }
 </script>

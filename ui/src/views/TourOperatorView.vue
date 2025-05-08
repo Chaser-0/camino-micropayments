@@ -1,6 +1,6 @@
 <template>
   <MainLayout headline="Tour operator dashboard">
-    <div class="bg-gray-900">
+    <!-- <div class="bg-gray-900">
       <div class="mx-auto max-w-7xl">
         <div class="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-4">
           <div v-for="stat in stats" :key="stat.name" class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="bg-gray-900">
       <div class="mx-auto max-w-7xl">
@@ -74,20 +74,6 @@ const withdrawEdit = ref<number[]>([]);
 const onWithdrawUpdate = (index: number) => {
   SupplierEscrowCaller.addAllowedAmount(supplierDefinitions[index].publicKey, withdrawEdit.value[index]);
 }
-
-const tableData = computed(() => {
-  const ret = [];
-  for (let i = 0; i < supplierDefinitions.length; i++) {
-    const sup = supplierDefinitions[i];
-    ret.push({
-      address: sup.publicKey,
-      name: sup.name
-    })
-  }
-
-  setEditArrayLength();
-  return ret;
-});
 
 onMounted(() => {
   setEditArrayLength();

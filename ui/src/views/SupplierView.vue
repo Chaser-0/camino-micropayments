@@ -1,6 +1,16 @@
 <template>
   <MainLayout headline="Supplier dashboard" inner-class="flex flex-col gap-4">
-    <div class="flex justify-end">
+    <div class="flex justify-end gap-2">
+      <SecondaryButton @click="checkSupplierBalance">
+        <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
+        <span>Check available funds</span>
+      </SecondaryButton>
+      <span class="border border-cyan-500 rounded-lg inline-flex items-center justify-center px-4 py-2 mr-2">Current balance: {{ supplierBalance }}</span>
+      <SecondaryButton @click="withdrawSupplierBalance" class="mr-auto">
+        <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
+        <span>Withdraw funds</span>
+      </SecondaryButton>
+
       <SecondaryButton @click="fetchBalance">
         <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
         <span>Refresh</span>
@@ -37,12 +47,13 @@ import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiRefresh, mdiAlertCircle } from '@mdi/js';
 import { formatEther } from 'ethers/utils';
 import RegularContainer from '@/components/containers/RegularContainer.vue';
+import { SupplierEscrowCaller } from '@/utils/contracts/SupplierEscrowCaller';
+import { supplierDefinitions } from '@/utils/SupplierDefinition';
 
-const addresses = ref<string[]>([
-  '0xcf4c43CeC323966833Ea85DaF0020479F84f620E'
-]);
+const addresses = ref<string[]>(supplierDefinitions.map(v => v.publicKey));
 const fundsData = ref<{address: string, balance: string}[]>([]);
 const addressInput = ref('');
+const supplierBalance = ref<number>(0);
 
 const fetchBalance = async () => {
   const ret: {address: string, balance: string}[] = [];
@@ -71,5 +82,12 @@ const onAddAddress = (e: KeyboardEvent) => {
     addresses.value.push(addressInput.value);
     addressInput.value = '';
   }
+}
+const checkSupplierBalance = async () => {
+	supplierBalance.value = await SupplierEscrowCaller.checkSupplierBalance();
+}
+const withdrawSupplierBalance = async () => {
+	await SupplierEscrowCaller.supplierWithdraw();
+	await checkSupplierBalance();
 }
 </script>

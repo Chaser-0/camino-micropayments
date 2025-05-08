@@ -1,7 +1,7 @@
-import type { ContractDefinition } from "./ContractDefinition";
+import type { ContractDefinition } from "../ContractDefinition";
 import { ethers } from "ethers";
 import { BrowserProvider } from "ethers/providers";
-import { testMyContract } from "./constants";
+import { testMyContract } from "../constants";
 
 const COLUMBUS_URL = import.meta.env.VITE_COLUMBUS_URL;
 

@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { BrowserProvider } from 'ethers/providers';
-import { ContractCaller } from '@/utils/ContractCaller';
+import { ContractCaller } from '@/utils/contracts/ContractCaller';
 
 export const useWalletStore = defineStore('wallet', () => {
   const connected = ref(false);

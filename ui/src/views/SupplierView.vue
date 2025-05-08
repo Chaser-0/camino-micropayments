@@ -1,5 +1,5 @@
 <template>
-  <MainLayout headline="Supplier dashboard">
+  <MainLayout headline="Supplier dashboard" inner-class="flex flex-col gap-4">
     <div class="flex justify-end">
       <SecondaryButton @click="fetchBalance">
         <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
@@ -13,7 +13,7 @@
       </RegularContainer>
       <RegularContainer class="flex flex-col gap-4 items-center">
         <span>Monitor wallet</span>
-        <div class="w-full">
+        <div class="w-full relative">
           <input
             type="text"
             v-model="addressInput"
@@ -21,7 +21,7 @@
             class="peer col-start-1 row-start-1 block w-full rounded-md bg-gray-900 py-1.5 pr-10 pl-3 text-base invalid:text-red-300 outline-1 -outline-offset-1 invalid:outline-red-800 invalid:placeholder:text-red-700 focus:outline-2 focus:-outline-offset-2 invalid:focus:outline-red-400 sm:pr-9 sm:text-sm/6"
             @keypress.enter="onAddAddress"
             />
-          <svg-icon type="mdi" :path="mdiAlertCircle" class="peer-invalid:visible invisible pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"></svg-icon>
+          <svg-icon type="mdi" :path="mdiAlertCircle" class="absolute right-0 top-2.5 peer-invalid:visible invisible pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"></svg-icon>
         </div>
       </RegularContainer>
     </div>

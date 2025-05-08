@@ -22,4 +22,4 @@ export const supplierEscrowContract = new ContractDefinition(
 
 export const paymentDistributorContract = new ContractDefinition(
 	paymentDistributorContractDefinition.abi,
-	"0xB7EA3E8728A2ff74fd9a6354aBC61ac19e1E47CE");
+	"0x36e51A928b2fc9DE8DB65520d3881c24F36f39F4");

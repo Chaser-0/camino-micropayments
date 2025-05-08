@@ -1,6 +1,6 @@
 import { ContractDefinition } from "./ContractDefinition";
 import { SupplierDefinition } from "./SupplierDefinition";
-import testMyContractDefinition from './TestMyContract.json';
+import testMyContractDefinition from './contracts/TestMyContract.json' assert { type: 'json' };
 
 export const testMyContract = new ContractDefinition(
 	testMyContractDefinition.abi,

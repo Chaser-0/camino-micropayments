@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+.mainBg {
+  background: 
+    radial-gradient(
+      circle at top right,
+      rgba(125, 0, 179, 0.145), 
+      transparent 50vw
+    ) no-repeat,
+    var(--color-gray-900);
+}

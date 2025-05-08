@@ -6,10 +6,23 @@
         <span>Refresh</span>
       </SecondaryButton>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
       <RegularContainer v-for="fund in fundsData" class="flex flex-col gap-4 items-center">
         <span class="text-4xl">{{ fund.balance }} CAM</span>
         <code>{{ fund.address }}</code>
+      </RegularContainer>
+      <RegularContainer class="flex flex-col gap-4 items-center">
+        <span>Monitor wallet</span>
+        <div class="w-full">
+          <input
+            type="text"
+            v-model="addressInput"
+            pattern="0x[0-9a-fA-F]{40}"
+            class="peer col-start-1 row-start-1 block w-full rounded-md bg-gray-900 py-1.5 pr-10 pl-3 text-base invalid:text-red-300 outline-1 -outline-offset-1 invalid:outline-red-800 invalid:placeholder:text-red-700 focus:outline-2 focus:-outline-offset-2 invalid:focus:outline-red-400 sm:pr-9 sm:text-sm/6"
+            @keypress.enter="onAddAddress"
+            />
+          <svg-icon type="mdi" :path="mdiAlertCircle" class="peer-invalid:visible invisible pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"></svg-icon>
+        </div>
       </RegularContainer>
     </div>
   </MainLayout>
@@ -21,14 +34,15 @@ import MainLayout from '@/layouts/MainLayout.vue';
 import { BrowserProvider } from 'ethers/providers';
 import { onMounted, ref, watch } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiRefresh } from '@mdi/js';
+import { mdiRefresh, mdiAlertCircle } from '@mdi/js';
 import { formatEther } from 'ethers/utils';
 import RegularContainer from '@/components/containers/RegularContainer.vue';
 
 const addresses = ref<string[]>([
   '0xcf4c43CeC323966833Ea85DaF0020479F84f620E'
 ]);
-const fundsData =ref<{address: string, balance: string}[]>([]);
+const fundsData = ref<{address: string, balance: string}[]>([]);
+const addressInput = ref('');
 
 const fetchBalance = async () => {
   const ret: {address: string, balance: string}[] = [];
@@ -49,6 +63,13 @@ const fetchBalance = async () => {
   fundsData.value = ret;
 };
 
-watch(addresses, fetchBalance);
+watch(addresses, fetchBalance, {deep: true});
 onMounted(fetchBalance);
+
+const onAddAddress = (e: KeyboardEvent) => {
+  if ((<HTMLInputElement>e.target).checkValidity()) {
+    addresses.value.push(addressInput.value);
+    addressInput.value = '';
+  }
+}
 </script>

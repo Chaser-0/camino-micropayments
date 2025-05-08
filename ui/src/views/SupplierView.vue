@@ -66,7 +66,7 @@ const fetchBalance = async () => {
       const balance = await provider.getBalance(address);
       const convertedBalance = formatEther(balance);
 
-      const tmp: (typeof ret)[n] = {address, balance: convertedBalance};
+      const tmp: (typeof ret)[0] = {address, balance: convertedBalance};
       const sup = supplierDefinitions.find(v => v.publicKey === address);
       if (sup)
         tmp.name = sup.name;

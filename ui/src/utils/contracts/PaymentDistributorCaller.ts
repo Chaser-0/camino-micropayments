@@ -40,4 +40,25 @@ export class PaymentDistributorCaller {
 			throw error;
 		}
 	}
+
+	async addNFTToMetaMask(bookingNumber: number): Promise<void> {
+		try {
+			const result = await window.ethereum.request({
+				method: 'wallet_watchAsset',
+				params: {
+					type: 'ERC721', // NFT standard
+					options: {
+						address: paymentDistributorContract.Address, // The NFT contract address
+						tokenId: bookingNumber.toString() // The token ID
+					},
+				},
+			});
+			
+			if (result) {
+				console.log('NFT successfully added to wallet!');
+			}
+		} catch (error) {
+			console.error('Error adding NFT:', error);
+		}
+	}
 }

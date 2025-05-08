@@ -131,7 +131,9 @@ const checkout = async () => {
 		amountsBySupplier.value
 	);
 
-  if (status)
+  if (status){
+		await distributor.addNFTToMetaMask(bookingNumber.value);
     router.push({name: 'success', params: {bookingNumber: bookingNumber.value}});
+	}
 }
 </script>

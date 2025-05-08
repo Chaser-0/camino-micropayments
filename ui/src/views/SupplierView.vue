@@ -1,6 +1,16 @@
 <template>
   <MainLayout headline="Supplier dashboard" inner-class="flex flex-col gap-4">
-    <div class="flex justify-end">
+    <div class="flex justify-end gap-2">
+      <SecondaryButton @click="checkSupplierBalance">
+        <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
+        <span>Check available funds</span>
+      </SecondaryButton>
+      <span class="border border-cyan-500 rounded-lg inline-flex items-center justify-center px-4 py-2 mr-2">Current balance: {{ supplierBalance }}</span>
+      <SecondaryButton @click="withdrawSupplierBalance" class="mr-auto">
+        <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
+        <span>Withdraw funds</span>
+      </SecondaryButton>
+
       <SecondaryButton @click="fetchBalance">
         <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
         <span>Refresh</span>
@@ -24,22 +34,6 @@
           <svg-icon type="mdi" :path="mdiAlertCircle" class="absolute right-0 top-2.5 peer-invalid:visible invisible pointer-events-none col-start-1 row-start-1 mr-3 size-5 self-center justify-self-end text-red-500 sm:size-4"></svg-icon>
         </div>
       </RegularContainer>
-			<RegularContainer>
-				<span>Supplier actions</span>
-        <div class="w-full relative">
-          <SecondaryButton @click="checkSupplierBalance">
-      		  <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
-    	   		<span>Check available funds</span>
-    		 	</SecondaryButton>
-          <span class="border">{{ supplierBalance }}</span>
-        </div>
-				<div class="w-full relative">
-					<SecondaryButton @click="withdrawSupplierBalance">
-					  <svg-icon type="mdi" :path="mdiRefresh"></svg-icon>
-			   		<span>Withdraw funds</span>
-				 	</SecondaryButton>
-				</div>
-			</RegularContainer>
     </div>
   </MainLayout>
 </template>
@@ -54,10 +48,9 @@ import { mdiRefresh, mdiAlertCircle } from '@mdi/js';
 import { formatEther } from 'ethers/utils';
 import RegularContainer from '@/components/containers/RegularContainer.vue';
 import { SupplierEscrowCaller } from '@/utils/contracts/SupplierEscrowCaller';
+import { supplierDefinitions } from '@/utils/SupplierDefinition';
 
-const addresses = ref<string[]>([
-  '0xcf4c43CeC323966833Ea85DaF0020479F84f620E'
-]);
+const addresses = ref<string[]>(supplierDefinitions.map(v => v.publicKey));
 const fundsData = ref<{address: string, balance: string}[]>([]);
 const addressInput = ref('');
 const supplierBalance = ref<number>(0);

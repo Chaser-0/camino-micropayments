@@ -88,7 +88,7 @@ contract PaymentDistributor is ERC721URIStorage, Ownable {
             Micropayment(vendor).refund(address(this), amount);
         }
 
-        (bool success, ) = to.call{value: totalAmount}("");
+        (bool success, ) = payable(to).call{value: totalAmount}("");
         require(success, "Transfer failed");
     }
 
@@ -98,11 +98,11 @@ contract PaymentDistributor is ERC721URIStorage, Ownable {
      * @param amount to transfer in Wei 10^(-18)
      */
     function withdraw(address to, uint256 amount) external onlyOwner {
-        (bool success, ) = to.call{value: amount}("");
+        (bool success, ) = payable(to).call{value: amount}("");
         require(success, "Transfer failed");
     }
 
     function transferOwnership(address newOwner) public override onlyOwner {
         _transferOwnership(newOwner);
     }
-} 
+}

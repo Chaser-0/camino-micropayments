@@ -18,8 +18,8 @@ export const testMyContract = new ContractDefinition(
 
 export const supplierEscrowContract = new ContractDefinition(
 	supplierEscrowContractDefinition.abi,
-	"0x14033B3a7eAFCe61dd79c73171C3B1D70b046f80");
+	"0xc096C74Dc86f3A33a8510fBd56a78B864e238eD0");
 
 export const paymentDistributorContract = new ContractDefinition(
 	paymentDistributorContractDefinition.abi,
-	"0x68aD0F7e22F44946C25126cAD3Ee2C869F009ab7");
+	"0xCfD4F85728dd4faa6fEB2f278B43220395b7CcF7");

@@ -23,7 +23,7 @@ contract SupplierEscrow is Micropayment, Ownable {
      * @dev Get the balance of the contract
      * @return the balance in Wei 10^(-18)
      */
-    function getBalance() public onlyOwner view returns (uint256) {
+    function getBalance() public view returns (uint256) {
         return address(this).balance;
     }
 

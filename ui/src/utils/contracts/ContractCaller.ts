@@ -1,7 +1,7 @@
 import type { ContractDefinition } from "./ContractDefinition";
+import { testMyContract } from "./ContractDefinition";
 import { ethers } from "ethers";
 import { BrowserProvider } from "ethers/providers";
-import { testMyContract } from "./constants";
 
 const COLUMBUS_URL = import.meta.env.VITE_COLUMBUS_URL;
 
@@ -19,8 +19,8 @@ export class ContractCaller {
 			console.log(`Adding ${amount} funds to contract`);
 			const contract = await this.getEthereumContractForConnectedUser(testMyContract);
 			const tx = await contract.addFunds({
-        value: ethers.parseEther(amount.toString()) // Convert Ether to Wei
-      });
+				value: ethers.parseEther(amount.toString()) // Convert Ether to Wei
+			});
 
 			console.log("Transaction hash:", tx.hash);
 			// Wait for transaction to be mined

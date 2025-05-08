@@ -47,7 +47,7 @@
 import MainLayout from '@/layouts/MainLayout.vue'
 import { useOfferStore } from '@/stores/offer.ts';
 import { computed, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import type { TTravelOffer } from '@/dummyOffers';
 import RegularContainer from '@/components/containers/RegularContainer.vue';
 import HeroContainer from '@/components/containers/HeroContainer.vue';
@@ -58,6 +58,7 @@ import { mdiCheckboxBlankOutline, mdiCheckboxMarked, mdiCashMultiple } from '@md
 import { PaymentDistributorCaller } from '@/utils/contracts/PaymentDistributorCaller';
 
 const route = useRoute();
+const router = useRouter();
 
 const offerStore = useOfferStore();
 const offer = ref<TTravelOffer | null>(null);
@@ -124,10 +125,13 @@ const total = computed(() => {
 const checkout = async () => {
 	bookingNumber.value = Math.floor(Math.random() * 1000000);
 	const distributor = new PaymentDistributorCaller();
-	await distributor.pay(
+	const status = await distributor.pay(
 		bookingNumber.value,
 		total.value,
 		amountsBySupplier.value
 	);
+
+  if (status)
+    router.push({name: 'success'})
 }
 </script>

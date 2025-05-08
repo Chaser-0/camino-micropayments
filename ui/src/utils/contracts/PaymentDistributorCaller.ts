@@ -33,6 +33,8 @@ export class PaymentDistributorCaller {
 			// Wait for transaction to be mined
 			const receipt = await tx.wait();
 			console.log("Transaction confirmed in block:", receipt.blockNumber);
+			
+			return true;
 		} catch (error) {
 			console.error("Error doing payment to suppliers:", error);
 			throw error;

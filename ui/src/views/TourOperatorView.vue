@@ -24,19 +24,19 @@
                   <table class="min-w-full divide-y divide-gray-700">
                     <thead>
                       <tr>
+                        <th scope="col" class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-white sm:pl-0">Name</th>
                         <th scope="col" class="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-white sm:pl-0">Address</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Amount (Demo only)</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Available payout</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-800">
-                      <tr v-for="recipient, i in wallet.receivers" :key="recipient.address">
-                        <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-white sm:pl-0">{{ recipient.address }}</td>
-                        <td class="px-3 py-4 text-sm whitespace-nowrap text-gray-300">{{ recipient.withdrawAmount }}/{{ recipient.amount }} CAM</td>
+                      <tr v-for="supplier, i in supplierDefinitions" :key="supplier.publicKey">
+                        <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-white sm:pl-0">{{ supplier.name }}</td>
+                        <td class="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-white sm:pl-0">{{ supplier.publicKey }}</td>
                         <td v-if="withdrawEdit.length >= i+1" class=" inline-flex flex-nowrap gap-2 px-3 py-4 text-sm whitespace-nowrap text-gray-300">
-                          <input type="number" v-model="withdrawEdit[i]" :min="recipient.withdrawAmount" :max="recipient.amount" step=".00001">
+                          <input type="number" v-model="withdrawEdit[i]" step=".00001">
                           <button class="cursor-pointer" @click="onWithdrawUpdate(i)">
-                            <svg-icon v-if="withdrawEdit[i] !== recipient.withdrawAmount" class="text-green-500 hover:text-teal-300 transition-colors duration-100" type="mdi" :path="mdiCheck"></svg-icon>
+                            <svg-icon v-if="withdrawEdit[i] !== 0" class="text-green-500 hover:text-teal-300 transition-colors duration-100" type="mdi" :path="mdiCheck"></svg-icon>
                           </button>
                         </td>
                       </tr>
@@ -54,42 +54,50 @@
 
 <script lang="ts" setup>
 import MainLayout from '@/layouts/MainLayout.vue';
-import { useWalletStore } from '@/stores/wallet';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiCheck } from '@mdi/js';
+import { supplierDefinitions } from '@/utils/SupplierDefinition';
+import { SupplierEscrowCaller } from '@/utils/contracts/SupplierEscrowCaller';
 
-
-const wallet = useWalletStore();
 const stats = computed(() => {
   const ret: {name: string, value: number, unit?: string}[] = [
-    {name: 'Funds', unit: 'CAM', value: wallet.funds},
-    {name: 'Recipients', value: wallet.receivers.length}
+    {name: 'Funds', unit: 'CAM', value: 0},//TODO
+    {name: 'Recipients', value: supplierDefinitions.length}
   ];
 
   return ret;
 });
 
 const withdrawEdit = ref<number[]>([]);
-const refreshEditWithdraws = (v: typeof wallet.receivers) => {
-  const ret: number[] = [];
-
-  for (let i = 0; i < v.length; i++) {
-    const r = v[i];
-    ret.push(r.withdrawAmount);
-  }
-
-  withdrawEdit.value = ret;
-}
-
-watch(wallet.receivers, refreshEditWithdraws);
-onMounted(() => {
-  refreshEditWithdraws(wallet.receivers);
-});
 
 const onWithdrawUpdate = (index: number) => {
-  const address = wallet.receivers[index].address;
-  const newWithdraw = withdrawEdit.value[index];
-  wallet.updateWithdrawAmount(address, newWithdraw);
+  SupplierEscrowCaller.addAllowedAmount(supplierDefinitions[index].publicKey, withdrawEdit.value[index]);
+}
+
+const tableData = computed(() => {
+  const ret = [];
+  for (let i = 0; i < supplierDefinitions.length; i++) {
+    const sup = supplierDefinitions[i];
+    ret.push({
+      address: sup.publicKey,
+      name: sup.name
+    })
+  }
+
+  setEditArrayLength();
+  return ret;
+});
+
+onMounted(() => {
+  setEditArrayLength();
+});
+
+const setEditArrayLength = () => {
+  if (withdrawEdit.value.length > supplierDefinitions.length)
+    withdrawEdit.value.length = supplierDefinitions.length;
+
+  for (let i = withdrawEdit.value.length; i < supplierDefinitions.length; i++)
+    withdrawEdit.value.push(0);
 }
 </script>

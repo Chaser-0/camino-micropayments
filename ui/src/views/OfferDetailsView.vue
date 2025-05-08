@@ -132,6 +132,6 @@ const checkout = async () => {
 	);
 
   if (status)
-    router.push({name: 'success'})
+    router.push({name: 'success', params: {bookingNumber: bookingNumber.value}});
 }
 </script>

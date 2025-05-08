@@ -70,7 +70,7 @@ contract SupplierEscrow is Micropayment, Ownable {
     /**
      * @dev For the Supplier to withdraw his/her balance
      */
-    function withdraw() public payable {
+    function withdraw() public {
         uint256 amount = supplierBalances[msg.sender];
         require(amount > 0, "No funds to withdraw");
 
@@ -94,7 +94,7 @@ contract SupplierEscrow is Micropayment, Ownable {
      * @param to the address for the funds to be transfered
      * @param amount to transfer in Wei 10^(-18)
      */
-    function refund(address to, uint256 amount) external onlyOwner payable {
+    function refund(address to, uint256 amount) external onlyOwner {
         // TODO: When removing funds you will need to update the allowed amount for one or more
         // suppliers (and also the total allowed amount of the escrow service)
         (bool success, ) = to.call{value: amount}("");
@@ -105,4 +105,3 @@ contract SupplierEscrow is Micropayment, Ownable {
         _transferOwnership(newOwner);
     }
 } 
-

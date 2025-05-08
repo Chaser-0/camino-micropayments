@@ -17,9 +17,10 @@
       </SecondaryButton>
     </div>
     <div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
-      <RegularContainer v-for="fund in fundsData" class="flex flex-col gap-4 items-center">
-        <span class="text-4xl">{{ fund.balance }} CAM</span>
+      <RegularContainer v-for="fund in fundsData" class="flex flex-col items-center">
+        <span class="text-4xl mb-4">{{ fund.balance }} CAM</span>
         <code>{{ fund.address }}</code>
+        <span v-if="fund.name" class="text-gray-300 text-sm">({{ fund.name }})</span>
       </RegularContainer>
       <RegularContainer class="flex flex-col gap-4 items-center">
         <span>Monitor wallet</span>
@@ -51,12 +52,12 @@ import { SupplierEscrowCaller } from '@/utils/contracts/SupplierEscrowCaller';
 import { supplierDefinitions } from '@/utils/SupplierDefinition';
 
 const addresses = ref<string[]>(supplierDefinitions.map(v => v.publicKey));
-const fundsData = ref<{address: string, balance: string}[]>([]);
+const fundsData = ref<{address: string, balance: string, name?: string}[]>([]);
 const addressInput = ref('');
 const supplierBalance = ref<number>(0);
 
 const fetchBalance = async () => {
-  const ret: {address: string, balance: string}[] = [];
+  const ret: {address: string, balance: string, name?: string}[] = [];
 
   for (let i = 0; i < addresses.value.length; i++) {
     try {
@@ -64,7 +65,13 @@ const fetchBalance = async () => {
       const provider = new BrowserProvider(window.ethereum);
       const balance = await provider.getBalance(address);
       const convertedBalance = formatEther(balance);
-      ret.push({address, balance: convertedBalance});
+
+      const tmp: (typeof ret)[n] = {address, balance: convertedBalance};
+      const sup = supplierDefinitions.find(v => v.publicKey === address);
+      if (sup)
+        tmp.name = sup.name;
+
+      ret.push(tmp);
     }
     catch (error) {
       console.error(error);

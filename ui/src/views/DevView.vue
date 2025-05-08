@@ -2,8 +2,8 @@
   <MainLayout headline="Developer area">
     <RegularContainer class="flex flex-col gap-2">
       <div class="flex flex-wrap justify-start gap-2">
-        <primary-button class="" @click="testMyContractGetBalance">Get Contract Balance</primary-button>
-				<primary-button class="" @click="wallet.testMyContractAddFunds(1)">Add funds to Contract</primary-button>
+        <SecondaryButton class="" @click="testMyContractGetBalance">Get Contract Balance</SecondaryButton>
+				<SecondaryButton class="" @click="wallet.testMyContractAddFunds(1)">Add funds to Contract</SecondaryButton>
       </div>
 
 		  <span class="text-gray-100">Balance: {{ contractBalance }}</span>

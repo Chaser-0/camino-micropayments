@@ -43,7 +43,7 @@ contract PaymentDistributor is ERC721URIStorage, Ownable {
             totalAmount += amount;
         }
 
-        require(msg.value < totalAmount, "You cannot distribute more than received.");
+        require(msg.value >= totalAmount, "You cannot distribute more than received.");
         
         for(uint i=0; i<vendors.length; i++)
         {
@@ -106,4 +106,3 @@ contract PaymentDistributor is ERC721URIStorage, Ownable {
         _transferOwnership(newOwner);
     }
 } 
-

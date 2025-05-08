@@ -15,9 +15,12 @@ export class TestMyContractCaller {
 		try {
 			console.log(`Adding ${amount} funds to contract`);
 			const contract = await getEthereumContractForConnectedUser(testMyContract);
-			const tx = await contract.addFunds({
-				value: ethers.parseEther(amount.toString()) // Convert Ether to Wei
-			});
+			var totalAmount = ethers.parseEther(amount.toString())
+			const tx = await contract.addFunds(
+				totalAmount,
+				{
+					value: totalAmount // Convert Ether to Wei
+				});
 
 			console.log("Transaction hash:", tx.hash);
 			// Wait for transaction to be mined

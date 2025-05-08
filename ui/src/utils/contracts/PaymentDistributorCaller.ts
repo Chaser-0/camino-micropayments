@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { getEthereumContractForConnectedUser } from "./helpers";
-import { paymentDistributorContract } from "./ContractDefinition";
+import { paymentDistributorContract, supplierEscrowContract } from "./ContractDefinition";
 
 const tokenURI = "https://example.com/token/123"; // Replace with your actual token URI
 
@@ -9,24 +9,23 @@ const tokenURI = "https://example.com/token/123"; // Replace with your actual to
  */
 export class PaymentDistributorCaller {
 
-	async pay(bookingNumber: number, amount: number): Promise<any> {
+	async pay(bookingNumber: number, totalAmount: number, amountsBySupplier: Record<number, number>): Promise<any> {
 		try {
-			console.log(`Adding ${amount} funds to contract`);
+			console.log(`Adding ${totalAmount} funds to contract for booking ${bookingNumber}`, amountsBySupplier);
 			const contract = await getEthereumContractForConnectedUser(paymentDistributorContract);
-			const paymentDetails = [ // TODO: receive the amounts per supplier from the UI
-				{
-					vendor: "0x123abc...", // First vendor address
-					amount: ethers.parseEther("0.1") // 0.1 ETH in wei
-				}
-			];
-
+			var totalEther = ethers.parseEther(totalAmount.toString())
+			const supplierAmounts = [{
+				vendor: supplierEscrowContract.Address,
+				amount: totalEther
+			}];
+			console.log("Payment details:", supplierAmounts);
 			// Call the pay method
 			const tx = await contract.pay(
-				paymentDetails,  // Array of payment details structs
+				supplierAmounts,  // Array of payment details structs
 				bookingNumber,         // tokenId parameter
 				tokenURI,        // tokenURI parameter
 				{
-					value: ethers.parseEther(amount.toString())   // Send ETH with the transaction
+					value: totalEther
 				}
 			);
 

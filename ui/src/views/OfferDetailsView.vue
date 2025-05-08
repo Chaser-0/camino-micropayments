@@ -37,7 +37,7 @@
 
       <PrimaryButton class="ml-auto mt-6">
         <svg-icon type="mdi" :path="mdiCashMultiple"></svg-icon>
-        <span>Checkout</span>
+        <span @click="checkout">Checkout</span>
       </PrimaryButton>
     </RegularContainer>
   </MainLayout>
@@ -55,6 +55,7 @@ import BillListEntry from '@/components/BillListEntry.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiCheckboxBlankOutline, mdiCheckboxMarked, mdiCashMultiple } from '@mdi/js';
+import { PaymentDistributorCaller } from '@/utils/contracts/PaymentDistributorCaller';
 
 const route = useRoute();
 
@@ -62,6 +63,7 @@ const offerStore = useOfferStore();
 const offer = ref<TTravelOffer | null>(null);
 
 const selectedAddons = ref<number[]>([]);
+const bookingNumber = ref<number>(0);
 
 onMounted(() => {
   if (route.params.id && typeof route.params.id === 'string')
@@ -118,4 +120,14 @@ const total = computed(() => {
     
   return price;
 });
+
+const checkout = async () => {
+	bookingNumber.value = Math.floor(Math.random() * 1000000);
+	const distributor = new PaymentDistributorCaller();
+	await distributor.pay(
+		bookingNumber.value,
+		total.value,
+		amountsBySupplier.value
+	);
+}
 </script>

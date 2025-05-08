@@ -36,17 +36,11 @@ export class ContractCaller {
 	 */
 	async testMyContractGetBalance(): Promise<number> {
 		try {
-			// This is a placeholder for actual contract interaction
-			// In a real implementation, you would:
-			// 1. Connect to the blockchain network
-			// 2. Get contract instance
-			// 3. Call the contract's get balance function
-			// 4. Return the balance
 			const contract = await this.getEthereumContract(testMyContract);
-			const balance = await contract.getBalance();
-			console.log("TestMyContract balance:", balance.toString());
+			const balance = (await contract.getBalance()).toString(); // Get balance in Wei
+			console.log("TestMyContract balance:", balance);
 
-			return balance;
+			return parseFloat(ethers.formatEther(balance)); // Convert Wei to Ether
 		} catch (error) {
 			console.error("Error getting balance:", error);
 			throw error;

@@ -75,7 +75,7 @@ contract PaymentDistributor is ERC721URIStorage, Ownable {
      * @param to the address for the funds to be transfered
      * @param vendors the list of vendors to call the refund method on them and the amount to withdraw
      */
-    function refund(address to, paymentDetails[] memory vendors) external onlyOwner payable {
+    function refund(address to, paymentDetails[] memory vendors) external onlyOwner {
         uint256 totalAmount;
 
         for(uint i=0; i<vendors.length; i++)
@@ -97,7 +97,7 @@ contract PaymentDistributor is ERC721URIStorage, Ownable {
      * @param to the address for the funds to be transfered
      * @param amount to transfer in Wei 10^(-18)
      */
-    function withdraw(address to, uint256 amount) external onlyOwner payable {
+    function withdraw(address to, uint256 amount) external onlyOwner {
         (bool success, ) = to.call{value: amount}("");
         require(success, "Transfer failed");
     }

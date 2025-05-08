@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 .mainBg {
-  background: 
-    radial-gradient(
-      circle at top right,
-      rgba(125, 0, 179, 0.145), 
-      transparent 50vw
-    ) no-repeat,
-    var(--color-gray-900);
+  background-color: var(--color-gray-900);
+  background-image: radial-gradient(
+    circle at top right,
+    rgba(131, 4, 185, 0.089), 
+    transparent 75vw
+  );
+  background-size: 100vw 100hv;
+  background-repeat: no-repeat;
+
+  min-height: 100vh;
 }

@@ -1,6 +1,6 @@
 <template>
-  <li class="relative w-full h-64 rounded-md overflow-hidden">
-    <img :src="offer.heroImage" class="absolute top-0 left-0 w-full h-full object-cover">
+  <li class="group relative w-full h-64 rounded-md overflow-hidden">
+    <img :src="offer.heroImage" class="absolute top-0 left-0 w-full h-full object-cover group-hover:brightness-125 transition-[filter] duration-500">
     <div class="absolute bottom-0 left-0 w-full h-3/4 bg-gradient-to-t from-black/80 to-transparent"></div>
 
     <RouterLink

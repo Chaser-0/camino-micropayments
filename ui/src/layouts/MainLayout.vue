@@ -1,11 +1,11 @@
 <template>
   <header>
     <div class="wrapper">
-      <nav class="flex items-center gap-2 text-gray-300 p-2">
+      <nav class="flex items-center gap-4 text-gray-300 p-2">
         <RouterLink
           v-for="label, name in menuEntries"
           :to="{name}"
-          :class="`hover:text-cyan-500 border-b-2 ${route.name === name ? 'border-b-cyan-700' : 'border-b-transparent'} hover:border-b-cyan-500 transition-colors duration-300`"
+          :class="`hover:text-cyan-500 border-b-2 ${route.name === name ? 'border-b-cyan-700' : 'border-b-cyan-950/80'} hover:border-b-cyan-500 transition-colors duration-300`"
           >
           {{ label }}
         </RouterLink>

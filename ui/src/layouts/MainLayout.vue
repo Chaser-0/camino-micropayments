@@ -35,7 +35,8 @@ defineProps<{
 }>();
 
 const menuEntries = ref<Record<string, string>>({
-  searchOffers: 'Search Offers'
+  searchOffers: 'Search Offers',
+  tourOperatorDashboard: 'Tour operator dashboard (demo)'
 });
 
 const route = useRoute();

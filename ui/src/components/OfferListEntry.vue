@@ -39,7 +39,8 @@ onMounted(() => {
   const myAtropos = Atropos({
     el: antroposEl.value,
     rotateXMax: 5,
-    rotateYMax: 5
+    rotateYMax: 5,
+    activeOffset: 20
   });
 });
 </script>

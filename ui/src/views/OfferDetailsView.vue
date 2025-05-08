@@ -17,7 +17,7 @@
             <svg-icon v-else type="mdi" :path="mdiCheckboxBlankOutline"></svg-icon>
           </span>
           <span class="text-gray-200 group-hover:text-gray-50">{{ addon.name }}</span>
-          <span class="text-gray-400 text-sm">{{ addon.price + addon.price * addon.supplierPercent }} CAM</span>
+          <span class="text-gray-400 text-sm">{{ addon.price }} CAM</span>
         </li>
       </ul>
     </HeroContainer>
@@ -84,9 +84,28 @@ const billAddons = computed(() => {
     .map(v => {
       return {
         name: v.name,
-        price: v.price + (v.price * v.supplierPercent)
+				supplierId: v.supplierId,
+        price: v.price
       }
     });
+});
+
+const amountsBySupplier = computed(() => {
+	if (!offer.value)
+		return {};
+
+	const amountsBySupplier: Record<number, number> = {};
+
+	for (let i = 0; i < billAddons.value.length; i++) {
+		const addon = billAddons.value[i];
+		if (!amountsBySupplier[addon.supplierId])
+			amountsBySupplier[addon.supplierId] = 0;
+		
+		amountsBySupplier[addon.supplierId] += addon.price;
+	}
+	amountsBySupplier[offer.value.supplierId] = offer.value.price;
+
+	return amountsBySupplier;
 });
 
 const total = computed(() => {

@@ -16,7 +16,7 @@
   </header>
 	
   <div class="flex flex-col gap-2">
-		<h1 class="text-xl">{{ headline }}</h1>
+		<h1 class="text-xl ml-2 text-cyan-100">{{ headline }}</h1>
     <main :class="`container mx-auto ${innerClass ?? ''}`">
       <slot></slot>
     </main>
@@ -37,6 +37,7 @@ defineProps<{
 const menuEntries = ref<Record<string, string>>({
   searchOffers: 'Search Offers',
   tourOperatorDashboard: 'Tour operator dashboard (demo)',
+  supplierDashboard: 'Supplier dashboard (demo)',
 	dev: 'Dev tools',
 });
 

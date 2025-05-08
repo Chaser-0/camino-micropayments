@@ -24,6 +24,11 @@ const router = createRouter({
       name: 'tourOperatorDashboard',
       component: () => import('../views/TourOperatorView.vue'),
     },
+    {
+      path: '/supplier-dashboard',
+      name: 'supplierDashboard',
+      component: () => import('../views/SupplierView.vue'),
+    },
   ],
 })
 

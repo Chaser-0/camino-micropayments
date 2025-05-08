@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import MainLayout from '@/layouts/MainLayout.vue';
 import RegularContainer from '@/components/containers/RegularContainer.vue';
-import PrimaryButton from '@/components/PrimaryButton.vue';
+import SecondaryButton from '@/components/SecondaryButton.vue';
 import { useWalletStore } from '@/stores/wallet';
 import { ref } from 'vue';
 

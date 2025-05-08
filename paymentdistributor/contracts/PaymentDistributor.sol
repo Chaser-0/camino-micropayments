@@ -4,6 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "./Micropayment.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @dev Holds the vendor (either a PaymentDistributor or a SupplierEscrow) address and the amount to distribute
@@ -17,14 +18,11 @@ struct paymentDetails{
  * @title PaymentDistributor
  * @dev Received the funds and sends them to the suppliers
  */
-contract PaymentDistributor is ERC721URIStorage {
-    address private owner; // The owner of this contract (deployer)
-
+contract PaymentDistributor is ERC721URIStorage, Ownable {
     /**
      * @dev Set contract deployer as owner
      */
-    constructor() ERC721("Block Busters NFT", "NFT") {
-        owner = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
+    constructor() ERC721("Block Busters NFT", "NFT") Ownable(msg.sender) {
     }
 
     /**
@@ -77,7 +75,7 @@ contract PaymentDistributor is ERC721URIStorage {
      * @param to the address for the funds to be transfered
      * @param vendors the list of vendors to call the refund method on them and the amount to withdraw
      */
-    function refund(address to, paymentDetails[] memory vendors) external isOwner payable {
+    function refund(address to, paymentDetails[] memory vendors) external onlyOwner payable {
         uint256 totalAmount;
 
         for(uint i=0; i<vendors.length; i++)
@@ -99,15 +97,13 @@ contract PaymentDistributor is ERC721URIStorage {
      * @param to the address for the funds to be transfered
      * @param amount to transfer in Wei 10^(-18)
      */
-    function withdraw(address to, uint256 amount) external isOwner payable {
+    function withdraw(address to, uint256 amount) external onlyOwner payable {
         (bool success, ) = to.call{value: amount}("");
         require(success, "Transfer failed");
     }
 
-    // Modifier to check if caller is owner
-    modifier isOwner() {
-        require(msg.sender == owner, "Caller is not owner");
-        _;
+    function transferOwnership(address newOwner) public override onlyOwner {
+        _transferOwnership(newOwner);
     }
 } 
 

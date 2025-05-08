@@ -3,28 +3,27 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "./Micropayment.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title SupplierEscrow
  * @dev A contract to act as an escrow for supplier funds and allow them to withdraw specific amounts
  */
-contract SupplierEscrow is Micropayment {
-    address private owner; // The owner of this contract (deployer)
+contract SupplierEscrow is Micropayment, Ownable {
     mapping(address => uint256) private supplierBalances; // A mapping of: address to allowed amount, for withdrawal
     uint256 private allowedAmountAcrossSuppliers; // The sum of allowed amount across all suppliers
 
     /**
      * @dev Set contract deployer as owner
      */
-    constructor() {
-        owner = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
+    constructor() Ownable(msg.sender) {
     }
 
     /**
      * @dev Get the balance of the contract
      * @return the balance in Wei 10^(-18)
      */
-    function getBalance() public isOwner view returns (uint256) {
+    function getBalance() public onlyOwner view returns (uint256) {
         return address(this).balance;
     }
 
@@ -32,7 +31,7 @@ contract SupplierEscrow is Micropayment {
      * @dev Get the allowed amount across all suppliers
      * @return the amount in Wei 10^(-18)
      */
-    function getAllowedAmountAcrossSuppliers() public isOwner view returns (uint256) {
+    function getAllowedAmountAcrossSuppliers() public onlyOwner view returns (uint256) {
         return allowedAmountAcrossSuppliers;
     }
 
@@ -49,7 +48,7 @@ contract SupplierEscrow is Micropayment {
      * @param supplier the wallet address
      * @param amount to set as allowed in Wei 10^(-18)
      */
-    function setAllowedAmount(address supplier, uint256 amount) public isOwner {
+    function setAllowedAmount(address supplier, uint256 amount) public onlyOwner {
         uint256 existingAmount = supplierBalances[supplier];
 
         supplierBalances[supplier] = amount;
@@ -61,7 +60,7 @@ contract SupplierEscrow is Micropayment {
      * @param supplier the wallet address
      * @param amount to add as allowed in Wei 10^(-18)
      */
-    function addAllowedAmount(address supplier, uint256 amount) public isOwner {
+    function addAllowedAmount(address supplier, uint256 amount) public onlyOwner {
         uint256 existingAmount = supplierBalances[supplier];
 
         supplierBalances[supplier] = existingAmount + amount;
@@ -88,24 +87,22 @@ contract SupplierEscrow is Micropayment {
 
     // For receiving native currency (ie ETH)
     receive() external payable {}
-    // TODO: Shall we limit this with isOwner???
+    // TODO: Shall we limit this with onlyOwner???
 
     /**
      * @dev Retract the specific amount to the target address in order to issue a refund
      * @param to the address for the funds to be transfered
      * @param amount to transfer in Wei 10^(-18)
      */
-    function refund(address to, uint256 amount) external isOwner payable {
+    function refund(address to, uint256 amount) external onlyOwner payable {
         // TODO: When removing funds you will need to update the allowed amount for one or more
         // suppliers (and also the total allowed amount of the escrow service)
         (bool success, ) = to.call{value: amount}("");
         require(success, "Transfer failed");
     }
 
-    // Modifier to check if caller is owner
-    modifier isOwner() {
-        require(msg.sender == owner, "Caller is not owner");
-        _;
+    function transferOwnership(address newOwner) public override onlyOwner {
+        _transferOwnership(newOwner);
     }
 } 
 

@@ -19,6 +19,11 @@ const router = createRouter({
       name: 'dev',
       component: () => import('../views/DevView.vue'),
     },
+    {
+      path: '/tour-operator-dashboard',
+      name: 'tourOperatorDashboard',
+      component: () => import('../views/TourOperatorView.vue'),
+    },
   ],
 })
 
